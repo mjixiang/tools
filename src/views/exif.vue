@@ -169,8 +169,8 @@ footer {
   margin-top: -8px;
 }
 .leaflet-div-icon {
-  border: 0;
-  background-color: #f2f2f2;
+  border: 0 !important;
+  background-color: #f2f2f2 !important;
 }
 .my-div-icon {
   height: 32px;
