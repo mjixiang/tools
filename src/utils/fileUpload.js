@@ -45,15 +45,16 @@ export default class FileUpload {
       EXIF.getData(file, function () {
         let lngExif = this.exifdata.GPSLongitude
         let latExif = this.exifdata.GPSLatitude
+        let bolb = window.URL.createObjectURL(file)
         if (!lngExif || !latExif) {
-          return reject(new Error('该图片不含有EXIF信息'))
+          // return reject(new Error('该图片不含有EXIF信息'))
+          return resolve({ error: true, name: file.name || '', bolb })
         }
         let time = this.exifdata.DateTimeOriginal.replace(/^(\d+):(\d+):(\d+)/, '$1-$2-$3')
         let width = this.exifdata.PixelXDimension
         let height = this.exifdata.PixelYDimension
         let lng = lngExif[0] + lngExif[1] / 60 + lngExif[2] / 3600
         let lat = latExif[0] + latExif[1] / 60 + latExif[2] / 3600
-        let bolb = window.URL.createObjectURL(file)
         resolve({ name: file.name || '', time, lat, lng, width, height, bolb })
       })
     })

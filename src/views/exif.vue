@@ -4,7 +4,7 @@
     <footer>
       <transition-group name="image" tag="div" :style="{width: (images.length + 1) * 70 + 10 + 'px'}" class="image-items">
         <div @click="choose" :key="-1" class="image-item xa-flex-center">+</div>
-        <div @click="onImageClick(image)" v-for="image in images" :key="image.bolb" :style="{backgroundImage: 'url('+ image.bolb +')'}" class="image-item"></div>
+        <div @click="onImageClick(image)" v-for="image in images" :key="image.bolb" :style="{backgroundImage: 'url('+ image.bolb +')'}" :class="{'image-item': true, error: image.error}"></div>
       </transition-group>
     </footer>
   </div>
@@ -34,20 +34,22 @@ export default {
           try {
             let image = await fu.getImageBaseExif(file)
             this.images.push(image)
-            var height = 220
-            var width = 220
-            var rate = Math.min(220 / image.width, 220 / image.height)
-            height = image.height * rate
-            width = image.width * rate
-            image.marker = L.marker(image, { icon: L.divIcon({ html: `<div class="my-div-icon" style="background-image:url(${image.bolb})"></div>`, iconSize: [32, 32], iconAnchor: [16, 16], popupAnchor: [0, -16] }) }).bindPopup(`
-              <div class="popup-img" style="height:${height}px;width:${width}px;line-height:${height}px;">
-                <span class="time">${image.time}</span>
-                <img style="height:${height}px;width:${width}px;" src="${image.bolb}">
-              </div>
-            `, { closeButton: false, autoClose: true, className: 'popup-diy' }).on('popupopen', function (e) {
-            }).addTo(map)
-            featureGroup.addLayer(image.marker)
-            map.fitBounds(featureGroup.getBounds())
+            if (!image.error) {
+              var height = 220
+              var width = 220
+              var rate = Math.min(220 / image.width, 220 / image.height)
+              height = image.height * rate
+              width = image.width * rate
+              image.marker = L.marker(image, { icon: L.divIcon({ html: `<div class="my-div-icon" style="background-image:url(${image.bolb})"></div>`, iconSize: [32, 32], iconAnchor: [16, 16], popupAnchor: [0, -16] }) }).bindPopup(`
+                <div class="popup-img" style="height:${height}px;width:${width}px;line-height:${height}px;">
+                  <span class="time">${image.time}</span>
+                  <img style="height:${height}px;width:${width}px;" src="${image.bolb}">
+                </div>
+              `, { closeButton: false, autoClose: true, className: 'popup-diy' }).on('popupopen', function (e) {
+              }).addTo(map)
+              featureGroup.addLayer(image.marker)
+              map.fitBounds(featureGroup.getBounds())
+            }
           } catch (err) {
             console.log(err.message)
           }
@@ -57,6 +59,7 @@ export default {
       }
     },
     onImageClick (image) {
+      if (image.error) return
       map.panTo(image, { animate: true })
       image.marker.togglePopup()
     }
@@ -113,12 +116,28 @@ footer {
     float: left;
     margin: 5px;
     transition: 0.3s;
+    border: 2px solid white;
     &:first-child {
       font-size: 40px;
       font-weight: bold;
       color: #aaa;
       &:active {
         background-color: #f2f2f2;
+      }
+    }
+    &.error {
+      position: relative;
+      &:after {
+        content: '本图片不存在地理位置信息';
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-color:rgba(0,0,0,0.4);
+        color: white;
+        font-size: 10px;
+        line-height: 12px;
+        padding: 11px 2px;
+        text-align: justify;
       }
     }
   }
