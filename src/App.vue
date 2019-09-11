@@ -1,16 +1,12 @@
 <template>
   <div id="app">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import headerNav from 'components/headerNav'
 export default {
-  name: 'app-root',
-  components: { headerNav }
+  name: 'app-root'
 }
 </script>
 

@@ -12,10 +12,7 @@
 
 <script>
 import FileUpload from 'utils/fileUpload'
-import { L, getMap } from 'utils/map'
-let map = null
-let featureGroup = null
-let fu = new FileUpload()
+import { L, CreateMap } from 'utils/map'
 export default {
   name: 'exif',
   data () {
@@ -29,10 +26,10 @@ export default {
   methods: {
     async choose () {
       try {
-        let files = await fu.chooseImages()
+        let files = await this.uploader.chooseImages()
         for (let file of files) {
           try {
-            let image = await fu.getImageBaseExif(file)
+            let image = await this.uploader.getImageBaseExif(file)
             this.images.push(image)
             if (!image.error) {
               var height = 220
@@ -46,9 +43,9 @@ export default {
                   <img style="height:${height}px;width:${width}px;" src="${image.bolb}">
                 </div>
               `, { closeButton: false, autoClose: true, className: 'popup-diy' }).on('popupopen', function (e) {
-              }).addTo(map)
-              featureGroup.addLayer(image.marker)
-              map.fitBounds(featureGroup.getBounds())
+              })
+              this.featureGroup.addLayer(image.marker)
+              this.map.fitBounds(this.featureGroup.getBounds())
             }
           } catch (err) {
             console.log(err.message)
@@ -60,13 +57,14 @@ export default {
     },
     onImageClick (image) {
       if (image.error) return
-      map.panTo(image, { animate: true })
+      this.map.panTo(image, { animate: true })
       image.marker.togglePopup()
     }
   },
   mounted () {
-    map = getMap('map')
-    featureGroup = L.featureGroup([]).addTo(map)
+    this.uploader = new FileUpload()
+    this.map = CreateMap('map')
+    this.featureGroup = L.featureGroup([]).addTo(this.map)
   }
 }
 </script>
@@ -172,6 +170,7 @@ footer {
     max-height: 220px;
     display: block;
     margin: auto;
+    object-fit: cover;
   }
 }
 .popup-diy .leaflet-popup-content {
@@ -196,6 +195,8 @@ footer {
   width: 32px;
   background: #f2f2f2 no-repeat center;
   background-size: cover;
+  box-shadow: 0 0 0 2px white;
+  border-radius: 2px;
 }
 </style>
 

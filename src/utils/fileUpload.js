@@ -5,7 +5,7 @@ export default class FileUpload {
     this.dom.type = 'file'
     this.dom.multiple = true
     this.dom.onchange = this.onImageChange.bind(this)
-    this.dom.accept = '.jpg,.jpeg'
+    this.dom.accept = '.jpg,.jpeg,.png'
     this.resolve = null
   }
   chooseImages () {
@@ -57,6 +57,19 @@ export default class FileUpload {
         let lat = latExif[0] + latExif[1] / 60 + latExif[2] / 3600
         resolve({ name: file.name || '', time, lat, lng, width, height, bolb })
       })
+    })
+  }
+
+  static getImageBaseInfo (file) {
+    return new Promise((resolve, reject) => {
+      var _image = new Image()
+      _image.onload = () => {
+        resolve({ width: _image.width, height: _image.height, src: _image.src })
+      }
+      _image.onerror = () => {
+        reject(new Error(this.$t('图片加载失败')))
+      }
+      _image.src = window.URL.createObjectURL(file)
     })
   }
 }

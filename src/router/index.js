@@ -14,7 +14,7 @@ let router = new Router({
     {
       path: '/qrcode',
       name: 'qrcode',
-      component: require('views/qrcode').default,
+      component: resolve => require(['views/qrcode'], resolve),
       meta: {
         title: '批量生成二维码'
       }
@@ -22,9 +22,17 @@ let router = new Router({
     {
       path: '/exif',
       name: 'exif',
-      component: require('views/exif').default,
+      component: resolve => require(['views/exif'], resolve),
       meta: {
         title: '在地图中显示照片'
+      }
+    },
+    {
+      path: '/compare',
+      name: 'compare',
+      component: resolve => require(['views/compare'], resolve),
+      meta: {
+        title: '图片对比'
       }
     }
   ]
