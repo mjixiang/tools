@@ -5,11 +5,15 @@ import {setDocumentTitle} from 'utils/index'
 Vue.use(Router)
 
 let router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
       name: 'index',
-      component: require('views/index').default
+      component: resolve => require(['views/index'], resolve),
+      meta: {
+        title: '工具'
+      }
     },
     {
       path: '/qrcode',
@@ -33,6 +37,22 @@ let router = new Router({
       component: resolve => require(['views/compare'], resolve),
       meta: {
         title: '图片对比'
+      }
+    },
+    {
+      path: '/disk',
+      name: 'disk',
+      component: resolve => require(['views/disk/index'], resolve),
+      meta: {
+        title: '图库'
+      }
+    },
+    {
+      path: '/disk/upload',
+      name: 'disk-upload',
+      component: resolve => require(['views/disk/upload'], resolve),
+      meta: {
+        title: '上传图片'
       }
     }
   ]

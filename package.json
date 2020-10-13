@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "arale-qrcode": "^3.0.5",
+    "axios": "^0.20.0",
     "exif-js": "^2.3.0",
     "leaflet": "^1.2.0",
     "vue": "^2.5.2",

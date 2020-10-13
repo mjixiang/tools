@@ -3,11 +3,11 @@ import 'leaflet/dist/leaflet.css'
 
 const satellite = L.tileLayer(
   'http://mt{s}.google.cn/vt/lyrs=s&hl=zh-CN&gl=cn&x={x}&y={y}&z={z}',
-  { maxZoom: 19, subdomains: '123', zIndex: 1 }
+  { maxZoom: 21, subdomains: '123', zIndex: 1 }
 )
 const areaName = L.tileLayer(
-  'http://t{s}.tianditu.com/DataServer?T=cia_w&x={x}&y={y}&l={z}&tk=d29e6dbe443138767f824c9461b138df',
-  { maxZoom: 19, subdomains: '1234567', zIndex: 3 }
+  'https://t{s}.tianditu.gov.cn/DataServer?T=cia_w&x={x}&y={y}&l={z}&tk=0bd654cc9e61e8f307b0b3599f61bfa1',
+  { maxZoom: 21, subdomains: '01234567', zIndex: 3 }
 )
 
 const CreateMap = container => {

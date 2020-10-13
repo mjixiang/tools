@@ -40,7 +40,8 @@ module.exports = {
       'common': resolve('src/common'),
       'service': resolve('src/service'),
       'views': resolve('src/views'),
-      'utils': resolve('src/utils')
+      'utils': resolve('src/utils'),
+      'apis': resolve('src/apis')
     }
   },
   module: {
