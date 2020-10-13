@@ -1,13 +1,14 @@
 <template>
-  <div style="height: 100vh;overflow: auto;">
+  <div style="height: 100vh; overflow: auto">
     <div class="photo-album">
       <div
         @click="onItemClick(item)"
         v-for="item in files"
         :key="item.key"
         class="image"
-        :style="{backgroundImage: 'url('+assetsUrl + item.key+'?imageView2/1/w/200/h/200)'}"
-      ></div>
+      >
+        <img :src="assetsUrl + item.key + '?imageView2/1/w/200/h/200'" />
+      </div>
     </div>
     <infiniteScroll
       @load="onLoadMore"
@@ -15,10 +16,7 @@
       :endText="!files.length ? '点击右下角按钮上传第一张照片' : ''"
       :end="isEnd"
     />
-    <div
-      @click="onBtnClick"
-      class="button"
-    >+</div>
+    <div @click="onBtnClick" class="button">+</div>
   </div>
 </template>
 
@@ -58,6 +56,7 @@ export default {
   },
   methods: {
     onItemClick (item) {
+      if (!window.wx) return
       window.wx.previewImage({
         current: this.assetsUrl + item.key,
         urls: this.images
@@ -110,10 +109,20 @@ export default {
   flex-wrap: wrap;
 }
 .image {
+  position: relative;
   width: calc(25% - 2.5px);
   padding-top: calc(25% - 2.5px);
   margin-right: 2px;
   margin-bottom: 2px;
   background: #f2f2f2 no-repeat center/cover;
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 </style>
