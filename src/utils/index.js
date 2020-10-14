@@ -1,3 +1,9 @@
+import UUID from 'uuid-js'
+
+export function UUIDV4 () {
+  return UUID.create().toString()
+}
+
 export function formatNumer (n) {
   return n > 9 ? n : '0' + n
 }

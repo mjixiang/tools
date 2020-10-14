@@ -8,12 +8,7 @@
       placeholder="输入待生成文本、地址(空格或换行分隔)"
     ></textarea>
     <div v-for="sn in sns" :key="sn" class="qrcode-container">
-      <div
-        class="form-title"
-        style="overflow: auto; padding: 0 10px; height: auto; line-height: 24px"
-      >
-        {{ sn }}
-      </div>
+      <input class="qrcode-input" type="text" :value="sn" />
       <xa-qrcode :url="sn"></xa-qrcode>
     </div>
   </div>
@@ -43,7 +38,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form-title {
+.form-title, .qrcode-input {
   height: 36px;
   line-height: 24px;
   position: relative;
@@ -63,6 +58,16 @@ export default {
   line-height: inherit;
   outline: 0;
   padding: 6px 14px;
+}
+.qrcode-input  {
+  color: #333;
+  font-size: 15px;
+  background: none;
+  border: none;
+  outline: none;
+  height: 24px;
+  width: 100%;
+  margin-bottom: 8px;
 }
 .qrcode-container {
   width: 200px;

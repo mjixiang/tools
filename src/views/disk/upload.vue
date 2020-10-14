@@ -2,7 +2,7 @@
   <div class="upload-page xa-center">
     <div>
       <image-upload v-model="url" tip="上传试试吧" />
-      <div v-show="url" class="address">链接地址：{{ url }}</div>
+      <div v-show="url" class="address">{{ url }}</div>
     </div>
   </div>
 </template>
